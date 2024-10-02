@@ -25,32 +25,7 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-  </section>
-  <section> <!-- User Input -->
-    <mat-form-field>
-      <mat-label>Choose a date</mat-label>
-      <input matInput [(ngModel)]="dateInput" [matDatepicker]="picker" [value]="dateInput">
-      <mat-hint>MM/DD/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Type</mat-label>
-      <mat-select [(ngModel)]="typeInput">
-        @for (type of typesCategory; track type) {
-          <mat-option [value]="type">{{type}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Amount</mat-label>
-      <input matInput [(ngModel)]="amountInput">
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <input matInput [(ngModel)]="descriptionInput">
-    </mat-form-field>
-    <button mat-button (click)="appendList(dateInput, typeInput, amountInput, descriptionInput)">add</button>
+    <button mat-raised-button (click)="openDialog()">Add an item</button>
   </section>
 </section>
 
