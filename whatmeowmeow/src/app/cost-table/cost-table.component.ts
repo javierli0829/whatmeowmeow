@@ -7,7 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-import {CostTableUserInputDialog} from '../cost-table-user-input/cost-table-user-input.component';
+import { provideNativeDateAdapter } from '@angular/material/core';
+import { CostTableUserInputDialog } from '../cost-table-user-input/cost-table-user-input.component';
 
 interface CostTableElement {
   date: Date;
@@ -19,6 +20,7 @@ interface CostTableElement {
 @Component({
   selector: 'app-cost-table',
   standalone: true,
+  providers: [provideNativeDateAdapter()],
   imports: [
     MatTableModule,
     MatButtonModule,
@@ -33,22 +35,41 @@ interface CostTableElement {
 })
 
 export class CostTableComponent {
+  readonly dialog = inject(MatDialog);
+
   // Constructor
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<CostTableElement>();
+    this.calculateTotalCostOfTheDay();
   }
 
-  readonly dialog = inject(MatDialog);
+  allData: CostTableElement[] = [];
+  dateSelected: Date = new Date();
+  totalCostOfTheDay: number = 0;
+
+  onDateSelectedClose(): void {
+    this.dataSource.data = this.allData.filter(data => data.date.getDate() == this.dateSelected.getDate());
+    this.calculateTotalCostOfTheDay();
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CostTableUserInputDialog);
 
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined){
-        this.dataSource.data.push(result);
-        this.dataSource.data = this.dataSource.data;
+        this.allData.push(result);
+        this.dataSource.data = this.allData.filter(data => data.date.getDate() == this.dateSelected.getDate());
+        this.calculateTotalCostOfTheDay();
       }
     });
+  }
+
+  calculateTotalCostOfTheDay(): number {
+    this.totalCostOfTheDay = 0;
+    this.dataSource.data.forEach(item => {
+      this.totalCostOfTheDay = +this.totalCostOfTheDay + +item.cost;
+    })
+    return 0;
   }
 
   dataSource = new MatTableDataSource<CostTableElement>();

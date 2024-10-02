@@ -1,31 +1,36 @@
 <section>
-  <section>  <!-- Display -->
-    <mat-table [dataSource]="dataSource">
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
+  <h2>Total: {{totalCostOfTheDay}}</h2>
+  <mat-form-field>
+    <mat-label>Choose a date</mat-label>
+    <input matInput [(ngModel)]="dateSelected" [matDatepicker]="picker" [value]="dateSelected">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker (closed)="onDateSelectedClose()"></mat-datepicker>
+  </mat-form-field>
+  <mat-table [dataSource]="dataSource">
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
 
-      <!-- Position Column -->
-      <ng-container matColumnDef="type">
-        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
-      </ng-container>
+    <!-- Position Column -->
+    <ng-container matColumnDef="type">
+      <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+    </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="cost">
-        <mat-header-cell *matHeaderCellDef>Cost</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.cost}} </mat-cell>
-      </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="cost">
+      <mat-header-cell *matHeaderCellDef>Cost</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.cost}} </mat-cell>
+    </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
-      </ng-container>
+    <!-- Weight Column -->
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+    </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-    <button mat-raised-button (click)="openDialog()">Add an item</button>
-  </section>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <button mat-raised-button (click)="openDialog()">Add an item</button>
 </section>
 

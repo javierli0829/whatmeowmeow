@@ -1,6 +1,6 @@
 <section>
   <mat-dialog-content>
-    <section> <!-- User Input -->
+    <section>
       <mat-form-field>
         <mat-label>Choose a date</mat-label>
         <input matInput [(ngModel)]="dateInput" [matDatepicker]="picker" [value]="dateInput">
@@ -24,7 +24,6 @@
         <mat-label>Description</mat-label>
         <input matInput [(ngModel)]="descriptionInput">
       </mat-form-field>
-      <!-- <button mat-button (click)="appendList(dateInput, typeInput, amountInput, descriptionInput)">add</button> -->
     </section>
   </mat-dialog-content>
   <mat-dialog-actions>
