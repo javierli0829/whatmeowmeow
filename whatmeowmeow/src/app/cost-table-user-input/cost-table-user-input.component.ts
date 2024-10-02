@@ -48,7 +48,6 @@ export class CostTableUserInputDialog {
   }
 
   onOkayClick(): void {
-    console.log("onOkay")
     this.dialogRef.close({date: this.dateInput, type: this.typeInput, cost: this.amountInput, description: this.descriptionInput})
   }
 }
