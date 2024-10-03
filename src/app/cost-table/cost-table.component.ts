@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { CostTableUserInputDialog } from '../cost-table-user-input/cost-table-user-input.component';
+import { UserService } from '../user.service';
 
 interface CostTableElement {
   date: Date;
@@ -37,15 +38,18 @@ interface CostTableElement {
 export class CostTableComponent {
   readonly dialog = inject(MatDialog);
 
-  // Constructor
+  constructor(private userService: UserService) { }
+
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<CostTableElement>();
     this.calculateTotalCostOfTheDay();
+    this.loadUsers(); 
   }
 
   allData: CostTableElement[] = [];
   dateSelected: Date = new Date();
   totalCostOfTheDay: number = 0;
+  users: any[] = [];
 
   onDateSelectedClose(): void {
     this.dataSource.data = this.allData.filter(data => data.date.getDate() == this.dateSelected.getDate());
@@ -70,6 +74,18 @@ export class CostTableComponent {
       this.totalCostOfTheDay = +this.totalCostOfTheDay + +item.cost;
     })
     return 0;
+  }
+
+  loadUsers(): void {
+    this.userService.getUsers().subscribe(
+      data => {
+        this.users = data; // 獲取用戶數據並賦值
+        console.log(this.users); // 查看用戶數據
+      },
+      error => {
+        console.error('Error fetching users:', error); // 處理錯誤
+      }
+    );
   }
 
   dataSource = new MatTableDataSource<CostTableElement>();
